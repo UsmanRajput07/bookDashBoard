@@ -1,11 +1,17 @@
-import { Button } from "./components/ui/button";
+import { BrowserRouter, Route, Routes } from "react-router";
+import About from "./pages/About";
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Signup";
 
 function App() {
   return (
-    <>
-      <h1>hlo</h1>
-      <Button>Button</Button>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login/>} />
+        <Route path="/signup" element={<Signup/>} />
+        <Route path="/about" element={<About/>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
