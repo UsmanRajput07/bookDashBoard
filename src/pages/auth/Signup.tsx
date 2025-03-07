@@ -5,14 +5,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Link } from "react-router";
 
 export default function Signup() {
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen px-4 bg-muted">
       <Card className="w-[400px]">
         <CardHeader>
           <CardTitle className="text-2xl">Signup</CardTitle>
@@ -51,7 +51,7 @@ export default function Signup() {
                 </div>
                 <Input id="password" type="password" required />
               </div>
-              <Button type="submit" className="w-full">
+              <Button  type="submit" className="w-full">
                 Login
               </Button>
               {/* <Button variant="outline" className="w-full">

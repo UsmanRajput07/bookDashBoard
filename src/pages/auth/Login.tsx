@@ -6,13 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Link } from "react-router";
 
 export default function Login() {
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen bg-muted">
       <Card className="w-[400px]">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
