@@ -23,6 +23,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "react-router";
+import { signup } from "@/services/auth";
+import { useMutation } from "@tanstack/react-query";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -32,8 +34,20 @@ const formSchema = z.object({
 
 export default function ProfileForm() {
   const form = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data);
+
+  const onSignup = useMutation({
+    mutationFn: signup,
+    onSuccess: () => {
+      // Invalidate and refetch
+      console.log("user signed up successfully");
+    },
+  });
+  const onSubmit = (data: { email: string; password: string; name: string }) => {
+    const { email, password, name } = data;
+    if (!email || !password || !name) {
+      return alert("Please fill all the fields");
+    }
+    onSignup.mutate(data);
   };
   return (
     <div className="flex items-center justify-center h-screen px-4 bg-muted">
@@ -47,7 +61,7 @@ export default function ProfileForm() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
-                name="username"
+                name="name"
                 render={({ field }) => (
                   <FormItem className="mb-4">
                     <FormLabel>Username</FormLabel>
@@ -98,4 +112,3 @@ export default function ProfileForm() {
     </div>
   );
 }
-
