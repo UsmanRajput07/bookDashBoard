@@ -1,18 +1,14 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -22,93 +18,110 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { signup } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
+import { ToastContainer, toast, Zoom } from "react-toastify";
+import { LoaderCircle } from "lucide-react";
 
 export default function ProfileForm() {
   const form = useForm();
+  const navigate = useNavigate();
 
   const onSignup = useMutation({
     mutationFn: signup,
     onSuccess: () => {
-      // Invalidate and refetch
-      console.log("user signed up successfully");
+      form.reset();
+      navigate("/login");
     },
   });
-  const onSubmit = (data: { email: string; password: string; name: string }) => {
+  const onSubmit = (data: {
+    email: string;
+    password: string;
+    name: string;
+  }) => {
     const { email, password, name } = data;
     if (!email || !password || !name) {
-      return alert("Please fill all the fields");
+      return toast.error("Please fill all the fields", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Zoom,
+      });
     }
     onSignup.mutate(data);
   };
   return (
-    <div className="flex items-center justify-center h-screen px-4 bg-muted">
-      <Card className="w-[400px]">
-        <CardHeader>
-          <CardTitle className="text-2xl">Signup</CardTitle>
-          <CardDescription>Create an account</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="mb-4">
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your username" {...field} />
-                    </FormControl>
-                    {/* <FormMessage /> */}
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="mb-4">
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your email" {...field} />
-                    </FormControl>
-                    {/* <FormMessage /> */}
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem className="mb-4">
-                    <FormLabel>password</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your password" {...field} />
-                    </FormControl>
-                    {/* <FormMessage /> */}
-                  </FormItem>
-                )}
-              />
-              <div className="text-sm">
-                Already have an account?
-                <Link to={"/login"} className="underline underline-offset-4">
-                  Login
-                </Link>
-              </div>
-              <Button type="submit">Submit</Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </div>
+    <Card className="w-[400px]">
+      <CardHeader>
+        <CardTitle className="text-2xl">Signup</CardTitle>
+        <CardDescription>Create an account</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-4"
+          >
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="mb-4">
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your username" {...field} />
+                  </FormControl>
+                  {/* <FormMessage /> */}
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="mb-4">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your email" {...field} />
+                  </FormControl>
+                  {/* <FormMessage /> */}
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="mb-4">
+                  <FormLabel>password</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your password" {...field} />
+                  </FormControl>
+                  {/* <FormMessage /> */}
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={onSignup?.isPending}>
+              {onSignup?.isPending && (
+                <LoaderCircle className="mr-2 animate-spin" />
+              )}
+              Signup
+            </Button>
+          </form>
+        </Form>
+        <div className="mt-4 text-sm text-center">
+          Already have an account?
+          <Link to={"/login"} className="underline underline-offset-4">
+            Login
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
