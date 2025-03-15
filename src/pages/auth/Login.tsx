@@ -21,14 +21,17 @@ import { useMutation } from "@tanstack/react-query";
 import { login } from "@/services/auth";
 import { toast, Zoom } from "react-toastify";
 import { LoaderCircle } from "lucide-react";
+import authToken from "@/zustand/store";
 
 export default function Login() {
   const navigate = useNavigate();
   const form = useForm();
+  const setToken = authToken((state) => state.setToken);
   const loginUser = useMutation({
     mutationFn: login,
-    onSuccess: () => {
+    onSuccess: (response) => {
       navigate("/dashBoard");
+      setToken(response.data.token);
     },
     onError: () => {
       toast.error("Invalid credentials", {
