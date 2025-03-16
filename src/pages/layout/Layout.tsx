@@ -5,10 +5,10 @@ import {
 } from "@/components/ui/sidebar";
 import authToken from "@/zustand/store";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { Navigate } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import AppSidebar from "@/pages/components/AppSideBar";
 import UserProfile from "../components/UserProfile";
-import { BookData } from "../components/BookData";
+import NotFound from "@/pages/components/NotFound"
 
 export default function Layout() {
   const token = authToken((state) => state.token);
@@ -25,8 +25,8 @@ export default function Layout() {
             <Separator className="mr-2 h-4" />
           </div>
         </header>
-        <main>
-          <BookData />
+        <main className="px-6">
+         <Outlet/>
         </main>
       </SidebarInset>
     </SidebarProvider>

@@ -3,6 +3,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+
 } from "@/components/ui/sidebar";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
@@ -25,7 +26,7 @@ import {
 } from "lucide-react";
 
 export default function UserProfile() {
-//   const isMobile = useSidebar();
+  // const isMobile = useSidebar();
   const user = {
     name: "John Doe",
     email: "n6A7t@example.com",
