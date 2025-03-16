@@ -1,4 +1,4 @@
-import { Home, BookOpen  } from "lucide-react"
+import { Home, BookOpen } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -7,7 +7,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarFooter,
 } from "@/components/ui/sidebar"
+import UserProfile from "../components/UserProfile"
 import { Link } from "react-router"
 
 // Menu items.
@@ -45,6 +47,9 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <UserProfile/>
+      </SidebarFooter>
     </Sidebar>
   )
 }
