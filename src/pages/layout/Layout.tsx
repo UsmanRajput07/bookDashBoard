@@ -12,9 +12,9 @@ import NotFound from "@/pages/components/NotFound";
 
 export default function Layout() {
   const token = authToken((state) => state.token);
-  // if (token === "") {
-  //   return <Navigate to="/signup" replace />;
-  // }
+  if (token === "") {
+    return <Navigate to="/login" replace />;
+  }
   return (
     <SidebarProvider>
       <AppSidebar />

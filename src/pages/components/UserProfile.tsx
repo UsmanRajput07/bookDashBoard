@@ -23,9 +23,11 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import authToken from "@/zustand/store";
 
 export default function defNavUser() {
- const { isMobile } = useSidebar()
+  const setToken = authToken((state) => state.setToken);
+  const { isMobile } = useSidebar();
 
   return (
     <SidebarMenu>
@@ -89,7 +91,11 @@ export default function defNavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup> */}
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setToken("")
+              }}
+            >
               <LogOut />
               Log out
             </DropdownMenuItem>
