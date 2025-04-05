@@ -4,11 +4,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import authToken from "@/zustand/store";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Navigate, Outlet } from "react-router";
 import AppSidebar from "@/pages/components/AppSideBar";
-import UserProfile from "../components/UserProfile";
-import NotFound from "@/pages/components/NotFound";
 
 export default function Layout() {
   const token = authToken((state) => state.token);
