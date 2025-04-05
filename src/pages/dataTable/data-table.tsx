@@ -1,10 +1,10 @@
-
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -13,11 +13,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
 export function DataTable<TData, TValue>({
@@ -28,7 +29,8 @@ export function DataTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-  })
+    getPaginationRowModel: getPaginationRowModel(),
+  });
 
   return (
     <div className="rounded-md border">
@@ -40,13 +42,13 @@ export function DataTable<TData, TValue>({
                 return (
                   <TableHead key={header.id}>
                     {header.isPlaceholder
-                      ? null 
+                      ? null
                       : flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
                   </TableHead>
-                )
+                );
               })}
             </TableRow>
           ))}
@@ -73,7 +75,11 @@ export function DataTable<TData, TValue>({
             </TableRow>
           )}
         </TableBody>
+        <div className="flex items-center space-between space-x-2 p-4">
+          <Button onClick={table.previousPage}>previous page</Button>
+          <Button onClick={table.nextPage}>next page</Button>
+        </div>
       </Table>
     </div>
-  )
+  );
 }

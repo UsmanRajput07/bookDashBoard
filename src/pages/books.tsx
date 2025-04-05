@@ -1,35 +1,52 @@
-import { DataTable } from "./tableLayut/data-table";
-import { columns, Payment } from "./tableLayut/column";
-import { useState, useEffect } from "react";
 
-const getData = async (): Promise<Payment[]> => {
-  return new Array(50).fill(null).map(() => ({
-    id: Math.random() * 10000,
-    amount: Math.random() * 1000,
-    status: "pending",
-    email: "jhon@gmail.com",
-  }));
-};
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import Header from "./components/tableLayout/Header";
+import { useQuery } from "@tanstack/react-query";
+import { getBooks } from "@/services/books";
+import { Book } from "@/types/book";
+import dayjs from "dayjs";
 
 export default function Books() {
-  const [data, setData] = useState<Payment[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getData();
-        setData(result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    
-    fetchData();
-  }, []); // Empty dependency array means this runs once on mount
-
+  const header = ["Title", "Genra", "Author", "Creted At"];
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["books"],
+    queryFn: () => getBooks(),
+  });
   return (
-    <div>
-      <DataTable columns={columns} data={data} />
+    <div className="flex flex-col gap-4 border p-4 rounded-md h-96">
+      <h1 className="text-2xl font-bold">Books</h1>
+      <Table>
+        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+        <TableHeader>
+          <Header headers={header} />
+        </TableHeader>
+        <TableBody>
+          {data?.data?.map((book: Book, idx: number) => {
+            return (
+              <TableRow key={idx}>
+                <TableCell className="font-medium flex gap-4 items-center">
+                  <img
+                    src={book?.coverImg}
+                    className="aspect-square rounded-md object-cover w-15 h-15"
+                    alt="book img"
+                  />
+                  {book.title}
+                </TableCell>
+                <TableCell>{book.genre}</TableCell>
+                <TableCell>{book.author.name}</TableCell>
+                <TableCell>{dayjs(book.createdAt).format("DD/MM/YYYY")}</TableCell> 
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
     </div>
   );
 }
