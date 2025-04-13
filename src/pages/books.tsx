@@ -14,10 +14,11 @@ import TSkeleton from "./components/Skeleton/TSkeleton";
 import NotFound from "./components/NotFound";
 
 export default function Books() {
-  const header = ["Title", "Genra", "Author", "Creted At"];
+  const header = ["Title", "Genra", "Author", "Crrated At"];
   const { data, isLoading, isError } = useQuery({
     queryKey: ["books"],
     queryFn: () => getBooks(),
+    staleTime: 10000,  // 10 seconds
   });
   return (
     <div className="flex flex-col gap-4 border p-4 rounded-md min-h-96">

@@ -3,8 +3,9 @@ import Login from "@/pages/auth/Login";
 import Signup from "@/pages/auth/Signup";
 import Layout from "@/pages/layout/Layout";
 import Home from "@/pages/Home";
-import Books from "@/pages/Books";
 import AuthLayout from "@/pages/layout/AuthLayout";
+import CreateBook from "@/pages/CreateBook";
+import Books from "@/pages/books";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="dashBoard" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="books" element={<Books />} />
+          <Route path="createBook" element={<CreateBook />} />
         </Route>
       </Routes>
     </BrowserRouter>

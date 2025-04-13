@@ -1,4 +1,4 @@
-import { Home, BookOpen } from "lucide-react"
+import { Home, BookOpen, NotebookPen } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -23,6 +23,11 @@ const items = [
     title: "Books",
     url: "/dashBoard/books",
     icon: BookOpen,
+  },
+  {
+    title: "CreateBook",
+    url: "/dashBoard/createBook",
+    icon: NotebookPen,
   },
 ]
 
