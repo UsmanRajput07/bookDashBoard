@@ -9,6 +9,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,16 +24,26 @@ import { signup } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import { LoaderCircle } from "lucide-react";
+import { z } from "zod";
+import { signupSchema } from "@/zodValidation/AuthValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function ProfileForm() {
-  const form = useForm();
+  const form = useForm<z.infer<typeof signupSchema>>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      name: "",
+    },
+  });
   const navigate = useNavigate();
 
   const onSignup = useMutation({
     mutationFn: signup,
     onSuccess: () => {
       form.reset();
-      navigate("/login");
+      navigate("/");
     },
   });
   const onSubmit = (data: {
@@ -77,7 +88,7 @@ export default function ProfileForm() {
                   <FormControl>
                     <Input placeholder="Enter your username" {...field} />
                   </FormControl>
-                  {/* <FormMessage /> */}
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -90,7 +101,7 @@ export default function ProfileForm() {
                   <FormControl>
                     <Input placeholder="Enter your email" {...field} />
                   </FormControl>
-                  {/* <FormMessage /> */}
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -103,7 +114,7 @@ export default function ProfileForm() {
                   <FormControl>
                     <Input placeholder="Enter your password" {...field} />
                   </FormControl>
-                  {/* <FormMessage /> */}
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -117,7 +128,7 @@ export default function ProfileForm() {
         </Form>
         <div className="mt-4 text-sm text-center">
           Already have an account?
-          <Link to={"/login"} className="underline underline-offset-4">
+          <Link to={"/"} className="underline underline-offset-4">
             Login
           </Link>
         </div>

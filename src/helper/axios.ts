@@ -10,10 +10,12 @@ const axiosWrapper = axios.create({
 });
 
 axiosWrapper.interceptors.request.use((config) => {
-  const token = authToken((state) => state.token);
+  const token = authToken.getState().token;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
+
 export default axiosWrapper;
+

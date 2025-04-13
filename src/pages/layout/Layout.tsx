@@ -10,7 +10,7 @@ import AppSidebar from "@/pages/components/AppSideBar";
 export default function Layout() {
   const token = authToken((state) => state.token);
   if (token === "") {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
   return (
     <SidebarProvider>

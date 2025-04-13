@@ -10,22 +10,25 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/services/auth";
 import { toast, Zoom } from "react-toastify";
 import { LoaderCircle } from "lucide-react";
 import authToken from "@/zustand/store";
+import { loginSchema } from "@/zodValidation/AuthValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 export default function Login() {
   const navigate = useNavigate();
-  const form = useForm();
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
   const setToken = authToken((state) => state.setToken);
   const loginUser = useMutation({
     mutationFn: login,
@@ -45,7 +48,7 @@ export default function Login() {
         theme: "dark",
         transition: Zoom,
       });
-    }
+    },
   });
 
   const onSubmit = (data: { email: string; password: string }) => {
